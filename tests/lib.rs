@@ -6,11 +6,17 @@ use assert_cmd::Command;
 use assert_fs::{fixture::ChildPath, prelude::*};
 use predicates::prelude::*;
 
+/// A struct to hold the paths of the old and new files
+/// created in the test directories.
 struct DirItems {
     old_file_path: ChildPath,
     new_file_path: ChildPath,
 }
 
+/// Creates a directory with an old file and a new file.
+/// The old file is modified to be older than the specified age.
+/// If `keep` is true, a `.keep` file is created in the directory.
+/// The function returns a `DirItems` struct containing the paths of the old and new files.
 fn create_dir(dir: &ChildPath, old_age: &Duration, keep: bool) -> Result<DirItems> {
     dir.create_dir_all()?;
     if keep {
