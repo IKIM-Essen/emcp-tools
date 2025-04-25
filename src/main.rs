@@ -5,7 +5,7 @@ use std::time::Duration;
 
 mod cleanup_stale_data;
 
-/// Various utilities for maintaining the Essen medical 
+/// Various utilities for maintaining the Essen medical
 /// computing platform
 #[derive(Parser)]
 #[command(version, about)]
