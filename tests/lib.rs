@@ -26,7 +26,7 @@ fn create_dir(dir: &ChildPath, old_age: &Duration, keep: bool) -> Result<DirItem
     // change modification time of the old file to be older than the specified age
     let old_file_time = SystemTime::now() - *old_age;
     let times = FileTimes::new().set_modified(old_file_time);
-    let mut old_file = File::options().write(true).open(&old_file_path)?;
+    let old_file = File::options().write(true).open(&old_file_path)?;
     old_file.set_times(times)?;
 
     Ok(DirItems {

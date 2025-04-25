@@ -32,7 +32,7 @@ pub(crate) fn cleanup_stale_data(dir: &Path, age: &Duration) -> Result<()> {
     Ok(())
 }
 
-fn inspect_dir(dir: &Path, age: &Duration, now: &SystemTime) -> Result<(bool)> {
+fn inspect_dir(dir: &Path, age: &Duration, now: &SystemTime) -> Result<bool> {
     // if .keep is in the directory, do not remove anything
     if dir.join(".keep").exists() {
         return Ok(false);
