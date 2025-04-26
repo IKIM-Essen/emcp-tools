@@ -72,5 +72,24 @@ fn test_cleanup_stale_data() -> anyhow::Result<()> {
         .child(".keep")
         .assert(predicate::path::exists());
 
+    // Check that the given dir is not removed
+    let remove_dir_path = temp_dir.child("test_not_remove_given");
+    let remove_dir = create_dir(&remove_dir_path, &old_age, false)?;
+
+    let mut cmd = Command::cargo_bin("emcp-tools").unwrap();
+    cmd.arg("cleanup-stale-data")
+        .arg("--dir")
+        .arg(remove_dir_path.path().to_str().unwrap())
+        .arg("--age")
+        .arg("0s") // ensure that everything is removed in the dir
+        .assert()
+        .success();
+
+    // but the dir itself has to stay
+    // (otherwise one would risk that remove is applied to e.g. a mount point)
+    remove_dir_path.assert(predicate::path::exists());
+    remove_dir.old_file_path.assert(predicate::path::missing());
+    remove_dir.new_file_path.assert(predicate::path::missing());
+
     Ok(())
 }
