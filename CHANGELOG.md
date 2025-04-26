@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/IKIM-Essen/emcp-tools/compare/v0.1.1...v0.1.2) (2025-04-26)
+
+
+### Bug Fixes
+
+* do not delete the given dir ([#4](https://github.com/IKIM-Essen/emcp-tools/issues/4)) ([dc1b71d](https://github.com/IKIM-Essen/emcp-tools/commit/dc1b71da162534b3d530f8e1923275f91c91c707))
+
 ## [0.1.1](https://github.com/IKIM-Essen/emcp-tools/compare/v0.1.0...v0.1.1) (2025-04-25)
 
 
