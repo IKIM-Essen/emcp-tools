@@ -27,23 +27,24 @@ pub(crate) fn cleanup_stale_data(dir: &Path, age: &Duration) -> Result<()> {
     let now = std::time::SystemTime::now();
 
     // Recursively inspect the directory and remove stale data
-    inspect_dir(dir, age, &now)?;
+    // The given dir shall not be removed, even if it is empty.
+    inspect_dir(dir, age, &now, false)?;
 
     Ok(())
 }
 
-fn inspect_dir(dir: &Path, age: &Duration, now: &SystemTime) -> Result<bool> {
+fn inspect_dir(dir: &Path, age: &Duration, now: &SystemTime, remove_dir: bool) -> Result<bool> {
     // if .keep is in the directory, do not remove anything
     if dir.join(".keep").exists() {
         return Ok(false);
     }
 
-    let mut all_removed = true;
+    let mut all_removed = remove_dir;
 
     for entry in dir.read_dir()? {
         let path = entry?.path();
         if path.is_dir() {
-            all_removed &= inspect_dir(&path, age, now)?;
+            all_removed &= inspect_dir(&path, age, now, true)?;
         } else {
             let metadata = path.metadata()?;
             let modified = metadata.modified()?;

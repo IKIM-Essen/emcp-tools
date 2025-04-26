@@ -18,10 +18,15 @@ struct Cli {
 enum Commands {
     /// Clean up stale files and directories in a specified directory
     /// (e.g. /local/work or /tmp)
-    #[command(about)]
+    /// Directories containing a `.keep` file will remain untouched.
     CleanupStaleData {
+        /// Directory to clean up (the given dir will not be removed, only its contents)
+        /// (e.g. /local/work or /tmp)
+        /// The directory must exist and be writable.
         #[arg(short, long)]
         dir: ClioPath,
+        /// Age threshold for files and directories to be removed
+        /// (e.g. 7d or 5h)
         #[arg(short, long, value_parser = parse_duration::parse)]
         age: Duration,
     },
